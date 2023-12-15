@@ -96,14 +96,15 @@ def extract():
         return jsonify({'error': 'No audio file uploaded'})
 
     all_audio_file = request.files.getlist('audio')
+    #print(all_audio_file)
     t1 = time.time()
 
     all_audio_info = []
     for audio_file in all_audio_file:
         count_ = len(glob.glob('audio_files\\*.wav'))
         #print(audio_file.filename)
-        audio_path = "audio_files\\" + audio_file.filename
-
+        audio_path = "audio_files\\" + str(audio_file.filename).split('\\')[-1]
+        #print(audio_path)
         audio_file.save(audio_path)
 
     all_audio_path = glob.glob('audio_files\\*.wav')
