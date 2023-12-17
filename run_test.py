@@ -14,10 +14,9 @@ def upload_and_measure_time(file_paths):
     if request.status_code == 200:
         print(f"File uploaded and processed successfully.")
     else:
-        print(f"Error uploading file. Status code: {response.status_code}")    
+        print(f"Error uploading file. Status code: {request.status_code}")    
     
     end_time = time.time()
-    # Trả về thời gian xử lý
     return request.text, end_time - start_time
 
 file_path_10p = ['test_data\84-121123-0000.wav']

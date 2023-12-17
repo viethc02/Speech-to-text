@@ -1,4 +1,5 @@
 import math
+from ruamel.yaml import YAML
 #import pyini
 from flask import Flask, request, jsonify
 import subprocess
@@ -16,11 +17,10 @@ import numpy as np
 import time
 
 app = Flask(__name__)
-
-quartznet = nemo_asr.models.EncDecCTCModel.from_pretrained(model_name="QuartzNet15x5Base-En")
+quartznet = nemo_asr.models.EncDecCTCModel.restore_from("pretrained/QuartzNet15x5Base-En.nemo")
 
 ort_session = onnxruntime.InferenceSession('pretrained/qn_Lr_0001_bs_8_epoch_3_1.onnx', providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider', 'CPUExecutionProvider'])
-
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def to_numpy(tensor):
     return tensor.detach().cpu().numpy() if tensor.requires_grad else tensor.cpu().numpy()
